@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gallery</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/gallerystyle.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <h1 class="page-header" style="color: white; margin-left: 18px;">Photo Gallery</h1>
+            </div>
+
+            <div class="input-group">
+                <form action="/agallery12" method="post">
+                    <input type="text" id="inpDesc" name="inpDesc" class="form-control rounded" placeholder="Add image description here..." aria-label="Search" aria-describedby="search-addon" />
+                    <input type="submit" id="findimg-btn" class="btn btn-primary" value="Find Image">  
+                </form>
+            </div>
+        
+            <hr>
+            {% for image_name in image_names %}
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                    {% if flag1 %}
+                        {% if image_name == found_img_name %}
+                            <img class="img-responsive" src=" {{url_for('send_image2', filename=image_name)}}" style="height: 250px; width: 250px; box-shadow: -3px -3px 20px #00ff5a, 5px 5px 20px #55f400;">
+                        {% else %}
+                            <img class="img-responsive" src=" {{url_for('send_image2', filename=image_name)}}" style="height: 250px; width: 250px;">
+                        {% endif %}
+                    {% endif %}
+
+                    {% if not flag1 %}
+                        <img class="img-responsive" src=" {{url_for('send_image2', filename=image_name)}}" style="height: 250px; width: 250px;">
+                    {% endif %}
+
+                    <h5 style="color: rgb(214, 217, 219);"> {{image_name}} </h5>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('form').on('submit', function(event) {
+                $ajax({
+                    data : {
+                        desc : $('#inpDesc').val()
+                    },
+                    type : 'POST',
+                    url : '/agallery12'
+                })
+                .done(function() {
+                    console.log("it is wokring ri8");
+                });
+                event.preventDefault();
+            });
+        });
+    </script>
+
+</body>
+</html>

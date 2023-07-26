@@ -1,0 +1,27 @@
+body {
+    margin: 0; 
+    padding: 0; 
+    background-image: url('/static/bg7.jpg'); 
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.container {
+    background-color: rgba(68, 65, 65, 0.562); 
+    border-radius: 20px; 
+    margin-top: 15px; 
+    margin-bottom: 15px;
+}
+
+#inpDesc {
+    display: inline; 
+    border-radius: 20px;
+    margin-left: 30px;
+}
+
+#findimg-btn {
+    font-weight:bold; 
+    margin-left: 30px; 
+    margin-top: 10px; 
+    border-radius: 20px;
+}

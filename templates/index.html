@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Video Player</title>
+</head>
+<body>
+    <div class="container">
+        <div class="c-video">
+            {% for vid_name in vid_names %}
+                <video class="video" src=" {{url_for('send_image1', filename=vid_name)}}"></video>
+            {% endfor %}
+            <div class="controls">
+                <div class="orange-bar">
+                    <div class="orange-juice"></div>
+                </div>
+                <div class="buttons">
+                    <button id="play-pause"></button>
+                </div>
+            </div>
+        </div>
+
+        <section class="controlBox">
+            <div class="controlBoxContainer">
+                <div class="form-box">
+                    <h2>Find the scenes you want to watch</h2>
+                    <form action="/agallery11" method="post">
+                        <input type="text" id="inpDesc" name="inpDesc" class="inpDesc" placeholder="Enter the Scene Description">
+                        <input type="submit" class="btn btn-primary" value="GO" style="font-weight:bold;">
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <p id="{{ val }}" class="fts" style="display: none;"> {{ val }} </p>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+          integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+          crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+
+        var fts = document.getElementsByClassName("fts")[0].id;
+        console.log("fts: "+fts);
+        var timestamp = parseInt(fts);
+        console.log("timestamp: "+timestamp)
+
+
+        var video = document.querySelector('.video');
+        var juice = document.querySelector('.orange-juice');
+        var btn = document.getElementById('play-pause');
+        var searchBtn = document.querySelector('.searchBtn');
+        //var timestamp = {{val}};
+
+        function togglePlayPause() {
+            if(video.paused) {
+                btn.className = 'pause';
+                video.play();
+            }
+            else {
+                btn.className = 'play';
+                video.pause();
+            }
+        }
+
+        function jumpToScene(timestamp) {
+            video.currentTime = timestamp;
+        }
+
+        btn.onclick = function() {
+            togglePlayPause();
+        };
+
+        video.addEventListener('timeupdate', function() {
+            var juicePos = video.currentTime / video.duration;
+            juice.style.width = juicePos * 100 + '%';
+            if(video.ended) {
+                btn.className = 'play';
+            }
+        })
+
+        $(document).ready(function() {
+            $('form').on('submit', function(event) {
+
+                $ajax({
+                    data : {
+                        desc : $('#inpDesc').val()
+                    },
+                    type : 'POST',
+                    url : 'agallery1'
+                })
+                .done(function() {
+                    console.log("it is wokring ri8");
+                });
+
+                event.preventDefault();
+
+            });
+        });
+
+        jumpToScene(timestamp);
+        togglePlayPause();
+
+    </script>
+    
+</body>
+</html>
